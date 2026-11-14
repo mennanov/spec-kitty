@@ -82,22 +82,3 @@ def test_validate_release_exits_zero() -> None:
     assert result.returncode == 0, (
         f"validate_release.py failed:\n{result.stdout}\n{result.stderr}"
     )
-
-
-def test_version_coherence() -> None:
-    """pyproject.toml and .kittify/metadata.yaml must report the same version."""
-    import tomllib
-    import yaml  # type: ignore[import-untyped]
-
-    with (_REPO_ROOT / "pyproject.toml").open("rb") as fh:
-        pyproject_version = tomllib.load(fh)["project"]["version"]
-
-    metadata = yaml.safe_load(
-        (_REPO_ROOT / ".kittify" / "metadata.yaml").read_text(encoding="utf-8")
-    )
-    metadata_version = metadata["spec_kitty"]["version"]
-
-    assert pyproject_version == metadata_version, (
-        f"Version mismatch: pyproject.toml={pyproject_version!r} vs "
-        f".kittify/metadata.yaml={metadata_version!r}"
-    )

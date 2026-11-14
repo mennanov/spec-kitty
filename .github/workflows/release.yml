@@ -195,6 +195,19 @@ jobs:
       - name: Validate release metadata
         run: python scripts/release/validate_release.py --mode tag --tag "${RELEASE_TAG}" --tag-pattern "v*.*.*"
 
+      # validate_release.py no longer reads uv.lock or .kittify/metadata.yaml: those
+      # version-source checks live in `uv lock --check` and blockwatch.toml. CI Router
+      # runs both per change, but a tag can be cut from a commit it never gated, so the
+      # release re-runs them on the exact release ref before anything is built.
+      - name: Verify uv.lock matches pyproject.toml
+        run: uv lock --check
+
+      - name: Cross-file invariant lint (blockwatch)
+        uses: mennanov/blockwatch-action@d9cde319d3f71fe5794a9fbcfab90ba85a83059a # v1.1.41
+        timeout-minutes: 1
+        with:
+          verbosity: summary
+
       # skip_companion waiver: the CLI's `services` extra pins spec-kitty-services==<version>
       # exactly, so shipping without publishing the companion is only sound when that version
       # is already on PyPI (e.g. an orphan from an earlier failed run). Refuse otherwise.

@@ -28,7 +28,7 @@ spec-kitty init [PROJECT_NAME] [OPTIONS]
 
 | Option | Description |
 |---|---|
-| `--ai <keys>` | Comma-separated agent keys (`claude`, `codex`, `gemini`, `cursor`, `qwen`, `opencode`, `windsurf`, `kilocode`, `auggie`, `copilot`, `q`, `kiro`, `antigravity`, `vibe`, `pi`, `letta`). Required in non-interactive mode. (`roo` is deprecated and rejected — Roo Code shut down 2026-05-15.) |
+| `--ai <keys>` | Comma-separated agent keys (`claude`, `codex`, `gemini`, `cursor`, `qwen`, `opencode`, `windsurf`, `kilocode`, `auggie`, `copilot`, `q`, `kiro`, `llxprt`, `antigravity`, `vibe`, `pi`, `letta`). Required in non-interactive mode. (`roo` is deprecated and rejected — Roo Code shut down 2026-05-15.) |
 | `--non-interactive` / `--yes` / `-y` | Skip all prompts. Equivalent to setting `SPEC_KITTY_NON_INTERACTIVE=1`. |
 | `--help` | Show full help (this page is a curated summary). |
 
@@ -47,7 +47,7 @@ Holds spec-kitty's per-project configuration and runtime state. Key contents:
 | `.kittify/config.yaml` | Single source of truth for configured agents and feature flags. |
 | `.kittify/metadata.yaml` | Project schema version, used by the upgrade gate. |
 | `.kittify/memory/` | Long-lived memory used by the runtime. |
-| `.kittify/command-skills-manifest.json` | Tracks which agents reference each command-skill package (Codex/Vibe/Pi/Letta). |
+| `.kittify/command-skills-manifest.json` | Tracks which agents reference each command-skill package (Codex/Vibe/Pi/Letta/Antigravity). |
 
 ### `kitty-specs/` — mission artifacts
 

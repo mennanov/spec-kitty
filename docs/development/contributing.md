@@ -266,6 +266,40 @@ Team Kitty behaviour is gated by team membership and repository admission on
 the SaaS side, not by a local sync switch; `SPEC_KITTY_ENABLE_SAAS_SYNC` is
 leftover naming and gates nothing. See [Team Kitty](../context/team-kitty.md).
 
+### Cross-file checks (blockwatch)
+
+Some facts are written in more than one file, and a change to one copy must change the others.
+[blockwatch](https://github.com/mennanov/blockwatch) checks them. Its rules live in
+[`blockwatch.toml`](https://github.com/spec-kitty/spec-kitty/blob/main/blockwatch.toml) at the
+repository root, grouped by topic:
+
+- **Release version**: `pyproject.toml`, the `services` extra pin, `packages/spec-kitty-services/pyproject.toml`,
+  `.kittify/metadata.yaml` and the open version on this page carry one version. The full list is
+  "Version files" in the [Release Checklist](https://github.com/spec-kitty/spec-kitty/blob/main/RELEASE_CHECKLIST.md).
+- **Shared packages**: the `spec-kitty-events` / `spec-kitty-tracker` ranges and locks agree with
+  `.kittify/release/shared-package-compatibility.json`, and no retired or git-pinned dependency comes back.
+- **Docs site contract**: `scripts/docs/_dockitty_contract.py` and `site/dockitty-contract.json` agree.
+- **Slash commands and agents**: `docs/api/slash-commands.md` lists exactly the commands in
+  `CONSUMER_SKILLS` (`src/specify_cli/shims/registry.py`), the README names no other command, and the
+  agent lists in the init docs match `AI_CHOICES` in `src/specify_cli/core/config.py`.
+
+CI runs it in the CI Router `uv lock --check` job on pull requests and pushes to `main`, and `release.yml` runs it
+again before a release is built. A failure names the file, the line and the two values that disagree.
+Fix the copy that is wrong; do not change a rule to make it pass unless the fact itself changed.
+
+Run it locally before you push. Use the version CI pins (0.19.2, through `mennanov/blockwatch-action` v1.1.41):
+
+```bash
+uv tool install blockwatch-cli==0.19.2   # on PyPI, `blockwatch` is a different project
+
+blockwatch                                                  # the whole tree, as CI checks it
+git diff --patch --cached | blockwatch --diff --only-changed   # only what you staged
+```
+
+`--only-changed` skips rules whose files you did not touch, so run the full `blockwatch` before you
+push. Other install methods (Homebrew, shell installer, `cargo`) are in the
+[blockwatch README](https://github.com/mennanov/blockwatch#installation).
+
 ### Test Isolation
 
 Tests use several mechanisms to ensure they run against source code:
@@ -429,7 +463,7 @@ Spec Kitty's active release line is:
 - **`1.x-maintenance`** — Deprecated, critical-maintenance-only line; no new work or PyPI releases.
 
 The active cycle is **4.0.0**, currently at the release-candidate stage on `main`
-(`4.0.0rc5` open; rc1–rc4 shipped). Scope and the path to stable are tracked in
+(`4.0.0rc9` open; rc1–rc8 shipped). Scope and the path to stable are tracked in
 the [4.0.0 milestone roadmap](../plans/4-0-0-milestone-roadmap.md); work deferred
 past 4.0.0 goes to the GitHub milestone "CLI 4.x stable". The 3.x line is closed:
 its last release was 3.2.7.
@@ -458,11 +492,13 @@ For a small release whose product changes have already landed on `main`:
 ```bash
 # 1. Create a release branch, then bump version and update changelog
 git checkout -b release/X.Y.Z main
-#    Edit pyproject.toml: version = "X.Y.Z"
+#    Set X.Y.Z in every file under "Version files" in RELEASE_CHECKLIST.md, then:
+uv lock
 #    Edit CHANGELOG.md: add section after [Unreleased]
+blockwatch   # the version files agree (CI runs the same check)
 
 # 2. Commit on a release branch, push it, and merge its PR
-git add pyproject.toml CHANGELOG.md
+git add pyproject.toml packages/spec-kitty-services/pyproject.toml .kittify/metadata.yaml docs/development/contributing.md uv.lock CHANGELOG.md
 git commit -m "chore(release): prepare X.Y.Z"
 git push origin release/X.Y.Z
 gh pr create --base main --title "Release X.Y.Z" --fill
@@ -481,8 +517,8 @@ unset GITHUB_TOKEN && gh release view vX.Y.Z
 pipx install --force spec-kitty-cli==X.Y.Z
 
 # 6. Open the next development cycle on main (Release Checklist, step 8)
-#    PR: next version in pyproject.toml, the uv.lock project entry and
-#    .kittify/metadata.yaml, plus a new "## [Unreleased] - <next version>" heading
+#    PR: next version in every "Version files" entry of RELEASE_CHECKLIST.md
+#    (uv lock for uv.lock), plus a new "## [Unreleased] - <next version>" heading
 ```
 
 ### Full Release (Minor/Major)
@@ -494,7 +530,7 @@ For larger releases with multiple changes:
    git checkout -b release/X.Y.Z main
    ```
 
-2. **Update version number** in `pyproject.toml`
+2. **Update the version number** in every file the [Release Checklist](https://github.com/spec-kitty/spec-kitty/blob/main/RELEASE_CHECKLIST.md) lists under "Version files" (`pyproject.toml` and its `services` extra pin, `packages/spec-kitty-services/pyproject.toml`, `.kittify/metadata.yaml`, the open version on this page), then run `uv lock` and `blockwatch`
    - Use [Semantic Versioning](https://semver.org/):
      - **Patch** (X.Y.Z): Bug fixes, small improvements
      - **Minor** (X.Y.0): New features, backward compatible
@@ -557,7 +593,7 @@ For larger releases with multiple changes:
    ```
 
 9. **Open the next development cycle**
-   - Right after the tag, open a pull request that moves `main` to the next development or candidate version: `pyproject.toml`, the project entry in `uv.lock`, `.kittify/metadata.yaml`, and a new `## [Unreleased] - <next version>` heading in `CHANGELOG.md`.
+   - Right after the tag, open a pull request that moves `main` to the next development or candidate version: every file under "Version files" in the Release Checklist (run `uv lock` for `uv.lock`), and a new `## [Unreleased] - <next version>` heading in `CHANGELOG.md`.
    - Until it merges, branch-mode release validation on `main` fails with "Version does not advance beyond latest tag". The canonical step is step 8 of the [Release Checklist](https://github.com/spec-kitty/spec-kitty/blob/main/RELEASE_CHECKLIST.md).
 
 10. **Clean up**
@@ -575,11 +611,12 @@ Pushing a `v*.*.*` tag triggers `.github/workflows/release.yml`, which:
 3. Verifies test isolation (no version mismatch between source and installed package)
 4. Runs the release-specific tests (`tests/release`); the broad module matrix stays owned by main CI
 5. Validates release metadata (`scripts/release/validate_release.py --mode tag`)
-6. Classifies the release channel (a prerelease suffix marks the GitHub release as Pre-release)
-7. Builds wheel and source distributions, checks shared-package drift, and verifies the wheel installs and contains every migration file
-8. Generates an SBOM and records artifact checksums
-9. Extracts the changelog section for the release notes, creates the GitHub Release, and publishes to PyPI
-10. Verifies the exact version installs from PyPI
+6. Re-runs the cross-file checks on the release ref: `uv lock --check` and `blockwatch` (see [Cross-file checks (blockwatch)](#cross-file-checks-blockwatch))
+7. Classifies the release channel (a prerelease suffix marks the GitHub release as Pre-release)
+8. Builds wheel and source distributions, checks shared-package drift, and verifies the wheel installs and contains every migration file
+9. Generates an SBOM and records artifact checksums
+10. Extracts the changelog section for the release notes, creates the GitHub Release, and publishes to PyPI
+11. Verifies the exact version installs from PyPI
 
 ### Release Checklist
 

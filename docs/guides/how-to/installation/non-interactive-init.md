@@ -66,6 +66,7 @@ spec-kitty init .
 | `copilot` | GitHub Copilot |
 | `q` | Amazon Q Developer CLI (legacy; rebranded to Kiro) |
 | `kiro` | Kiro CLI (formerly Amazon Q Developer CLI) |
+| `llxprt` | LLxprt Code |
 | `antigravity` | Google Antigravity |
 | `vibe` | Mistral Vibe |
 | `pi` | Pi |
@@ -298,7 +299,7 @@ After non-interactive init, verify with:
 ls -la | grep -E "^(l|-).*AGENTS|rules$"
 
 # Check command or skill files for specific agents
-ls .agents/skills/          # Codex, Vibe, Pi, Letta command skills
+ls .agents/skills/          # Codex, Vibe, Pi, Letta, Antigravity command skills
 ls .claude/commands/        # Claude
 ls .cursor/commands/        # Cursor
 ls .gemini/commands/        # Gemini
@@ -316,7 +317,7 @@ spec-kitty init proj --ai CODEX
 spec-kitty init proj --ai codex
 ```
 
-Valid keys are lowercase: `codex`, `claude`, `gemini`, `cursor`, `qwen`, `opencode`, `windsurf`, `kilocode`, `auggie`, `copilot`, `q`, `kiro`, `vibe`, `pi`, `letta`, `llxprt`
+Valid keys are lowercase: `codex`, `claude`, `gemini`, `cursor`, `qwen`, `opencode`, `windsurf`, `kilocode`, `auggie`, `copilot`, `q`, `kiro`, `antigravity`, `vibe`, `pi`, `letta`, `llxprt`
 
 ## Complete Reference
 
