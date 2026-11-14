@@ -52,7 +52,7 @@ Command-skill packages share the same `SKILL.md` files. Before 4.0.0rc8 they wer
 
 ## Managing Active Agents
 
-Spec-kitty supports 16 AI agents (listed above). You can activate or deactivate agents at any time using the `spec-kitty agent config` command family.
+Spec-kitty supports 17 AI agents (listed above). You can activate or deactivate agents at any time using the `spec-kitty agent config` command family.
 
 To manage which agents are active in your project:
 - **View configured agents**: `spec-kitty agent config list`

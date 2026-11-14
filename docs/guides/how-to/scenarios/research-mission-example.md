@@ -214,7 +214,7 @@ After research completes:
 ```bash
 # Accept research findings
 /spec-kitty.accept
-/spec-kitty.merge
+/spec-kitty.consolidate
 
 # Switch back to software development mode
 spec-kitty mission switch software-dev

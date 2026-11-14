@@ -760,7 +760,7 @@ Agent creates:
 ```bash
 /spec-kitty.review
 /spec-kitty.accept
-/spec-kitty.merge
+/spec-kitty.consolidate
 ```
 
 After merge, run `/spec-kitty-mission-review` and the retrospective workflow.

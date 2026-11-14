@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" role="img" aria-labelledby="sdf-title sdf-desc" font-family="Inter, 'Segoe UI', Arial, sans-serif">
   <title id="sdf-title">Spec Kitty workflow: planning, implementation, and review phases</title>
-  <desc id="sdf-desc">Three-phase workflow. Lane 1, planning, runs in the repository root checkout: spec-kitty.specify creates spec.md, spec-kitty.plan creates plan.md, spec-kitty.tasks creates the tasks folder. Lane 2, implementation, is an iterative runtime loop: spec-kitty next returns one decision per call, you run spec-kitty agent action implement for that work package in its lane worktree, then report the result with spec-kitty next --result success and call next again. The loop repeats one work package at a time; independent lanes can run in parallel, each in its own worktree. Lane 3, review, runs spec-kitty.review to check the implementation against the spec, spec-kitty.accept to validate readiness, and spec-kitty.merge to land the accepted mission.</desc>
+  <desc id="sdf-desc">Three-phase workflow. Lane 1, planning, runs in the repository root checkout: spec-kitty.specify creates spec.md, spec-kitty.plan creates plan.md, spec-kitty.tasks creates the tasks folder. Lane 2, implementation, is an iterative runtime loop: spec-kitty next returns one decision per call, you run spec-kitty agent action implement for that work package in its lane worktree, then report the result with spec-kitty next --result success and call next again. The loop repeats one work package at a time; independent lanes can run in parallel, each in its own worktree. Lane 3, review, runs spec-kitty.review to check the implementation against the spec, spec-kitty.accept to validate readiness, and spec-kitty.consolidate to land the accepted mission.</desc>
 
   <style>
     .bg { fill: #ffffff; }
@@ -143,7 +143,7 @@
     </g>
     <g transform="translate(810 610)">
       <rect width="300" height="64" rx="10" class="node-review"/>
-      <text x="16" y="26" class="node-title text-primary mono">/spec-kitty.merge</text>
+      <text x="16" y="26" class="node-title text-primary mono">/spec-kitty.consolidate</text>
       <text x="16" y="46" class="body text-secondary">&#8594; Land accepted mission</text>
     </g>
     <path d="M 390 642 L 450 642" class="line" marker-end="url(#sdf-arr)"/>

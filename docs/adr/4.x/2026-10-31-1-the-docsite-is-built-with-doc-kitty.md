@@ -471,3 +471,12 @@ Recorded with #6939. D-1's, D-5's, D-7's and D-13's text above is unchanged. Thi
 - **A known gap upstream.** The built-in pack's docs lint (`packs/built-in/assets/docs_structural_lint.py`, sourced from spec-kitty-open-packs) still reads a section's landing page as `index.md`. Its `check_index_completeness` skips a section without one, so the curated-complete check on `docs/architecture/` does not run until the asset reads `README.md`. Packs are not edited here; the fix belongs upstream.
 - **Generated surfaces.** The retrieval index and the page inventory are not edited in the pull request; the post-merge `ci/regen-docs-index` bot regenerates them on the new paths.
 - **D-1 and D-13 are complete.**
+
+## Amendment 2026-11-14 (slash-command freshness moved to blockwatch)
+
+D-6's text above is unchanged. This section changes the "keep" verdict D-6 gives `check_slash_command_freshness.py`.
+
+- **The script and its tests are removed.** `scripts/docs/check_slash_command_freshness.py` and `tests/docs/test_check_slash_command_freshness.py` are deleted. The job they did (FR-001 / FR-002 of mission `docs-gate-hardening`: `docs/api/slash-commands.md` lists exactly the commands in `specify_cli.shims.registry.CONSUMER_SKILLS`) moves to the repository's `blockwatch.toml`.
+- **Same contract.** The `slash-commands-headings` rule compares the page's `## /spec-kitty.<name>` headings with `CONSUMER_SKILLS` as a set. A command the page omits (the old `SLASH-MISSING`) and a heading the registry does not carry (the old `SLASH-EXTRA`) both fail, and so does a missing page or a renamed `Slash Command Reference` heading. The registry stays the one authority.
+- **Where it runs.** The blockwatch step of the CI Router `uv lock --check` job, and `release.yml` before the build.
+- **The other D-6 "keep" scripts in that row** (`build_cli_reference.py`, `check_cli_reference_freshness.py`, `_typer_walker.py`, `_render.py`, `_guards.py`) keep their verdict.

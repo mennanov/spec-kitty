@@ -66,11 +66,9 @@ def test_the_check_is_part_of_the_release_consistency_checks(tmp_path: Path, mon
     import scripts.release.validate_release as validator
 
     for name in (
-        "validate_metadata_yaml_version_sync",
-        "validate_uv_lock_version_sync",
         "validate_release_covers_migration_targets",
         "validate_changelog_latest_version_sync",
     ):
         monkeypatch.setattr(validator, name, lambda *args, **kwargs: None)
-    issues = validate_version_source_consistency(_VERSION, _repo(tmp_path, companion="9.9.9"), tmp_path / "uv.lock", "")
+    issues = validate_version_source_consistency(_VERSION, _repo(tmp_path, companion="9.9.9"), "")
     assert [issue.message for issue in issues if "spec-kitty-services" in issue.message]

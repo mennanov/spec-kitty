@@ -20,7 +20,6 @@ owns:
   - tests/docs/test_bulk_ref_rewrite.py
   - tests/docs/test_check_cli_reference_freshness.py
   - tests/docs/test_check_docs_freshness.py
-  - tests/docs/test_check_slash_command_freshness.py
   - tests/docs/test_doc_status_durable.py
   - tests/docs/test_docs_index.py
   - tests/docs/test_docs_index_freshness.py
@@ -38,7 +37,6 @@ owns:
   - tests/lint/test_canonical_producers.py
   - tests/release/test_pinning_inventory_fresh.py
   - tests/release/test_validate_changelog_entry.py
-  - tests/release/test_validate_metadata_yaml_sync.py
   - tests/scripts/test_quality_gate_decision.py
   - tests/scripts/test_sync_all_contributors.py
 rows: []

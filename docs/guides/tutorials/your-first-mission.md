@@ -35,7 +35,7 @@ _Stylized splash — the cards are decorative. The full workflow is specify, pla
 Workflow path:
 
 ```
-/spec-kitty.specify → /spec-kitty.plan → /spec-kitty.tasks → /spec-kitty.analyze → spec-kitty next → /spec-kitty.accept → /spec-kitty.merge
+/spec-kitty.specify → /spec-kitty.plan → /spec-kitty.tasks → /spec-kitty.analyze → spec-kitty next → /spec-kitty.accept → /spec-kitty.consolidate
 ```
 
 You will build a tiny "task list" feature as the concrete example.
@@ -247,7 +247,7 @@ Then merge the mission's work package branches.
 In your agent:
 
 ```text
-/spec-kitty.merge
+/spec-kitty.consolidate
 ```
 
 Or via CLI:

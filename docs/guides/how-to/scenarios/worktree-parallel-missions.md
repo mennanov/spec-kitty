@@ -294,7 +294,7 @@ cd .worktrees/001-auth
 # ✓ Coverage: 84%
 # ✓ Security validation passed
 
-/spec-kitty.merge
+/spec-kitty.consolidate
 # Consolidated into local main
 # Cleaned up .worktrees/001-auth
 # Deleted branch 001-auth
@@ -310,7 +310,7 @@ cd .worktrees/002-dashboard
 
 ```text
 /spec-kitty.accept
-/spec-kitty.merge
+/spec-kitty.consolidate
 # Merged to local main (no conflicts with Mission A - already integrated!)
 ```
 
@@ -322,7 +322,7 @@ cd .worktrees/003-payment
 
 ```text
 /spec-kitty.accept
-/spec-kitty.merge
+/spec-kitty.consolidate
 # Merged to main
 ```
 
@@ -423,7 +423,7 @@ cd .worktrees/002-dashboard
 ```bash
 cd .worktrees/001-auth
 /spec-kitty.accept
-/spec-kitty.merge
+/spec-kitty.consolidate
 
 # Now Mission B can use it
 cd .worktrees/002-dashboard
@@ -439,7 +439,7 @@ Create shared utilities for email validation, date formatting, etc.
 
 cd .worktrees/000-shared-utils
 # Implement quickly
-/spec-kitty.accept && /spec-kitty.merge
+/spec-kitty.accept && /spec-kitty.consolidate
 
 # Now both A and B can use
 ```
@@ -510,7 +510,7 @@ git worktree remove .worktrees/001-auth
 git branch -d 001-auth
 ```
 
-**But `/spec-kitty.merge` does this automatically!**
+**But `/spec-kitty.consolidate` does this automatically!**
 
 ## Summary
 

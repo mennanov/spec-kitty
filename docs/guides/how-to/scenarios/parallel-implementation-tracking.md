@@ -45,6 +45,6 @@ Use this recipe when multiple agents implement a roadmap in parallel and leaders
 - Summarize agent throughput using the lane events and history notes in `status.events.jsonl`
 - Identify bottlenecks by checking lane distribution in the status output
 - Use `/spec-kitty.accept --mode checklist` to generate readiness report
-- Use `/spec-kitty.merge --dry-run` to produce merge preview for executives
+- Use `/spec-kitty.consolidate --dry-run` to produce merge preview for executives
 
 The bundled local web dashboard has been removed. A read-only Mission Status Read API ([#5528](https://github.com/spec-kitty/spec-kitty/issues/5528)) is planned as the contract for a replacement UI, which will live in its own repository.

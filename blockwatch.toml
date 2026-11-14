@@ -1,0 +1,209 @@
+# Keep cross-file invariants synchronized without modifying generated/consumer-copied templates.
+# `.git` and `.gitignore`d trees are skipped automatically; ignore tracked archival/mission trees.
+ignore = [
+  'kitty-specs/**',
+  'docs/archive/**',
+  'docs/reports/**',
+  'docs/plans/**',
+  'docs/changelog/**',
+]
+
+# ---------------------------------------------------------------------------
+# 1. Release Version & Companion Package Synchronization
+# ---------------------------------------------------------------------------
+
+# uv.lock is deliberately not a target: it records the PEP 440-normalized form
+# (`4.1.0alpha1` -> `4.1.0a1`), which an exact string compare would reject.
+# `uv lock --check` (CI Router `uv-lock` job, release.yml) owns pyproject <-> uv.lock.
+[[block]]
+target = 'pyproject.toml#/project/version'
+name = 'cli-version'
+same-as = [
+  'packages/spec-kitty-services/pyproject.toml#/project/version',
+  '.kittify/metadata.yaml#/spec_kitty/version',
+]
+
+[[block]]
+target = 'pyproject.toml#/project/optional-dependencies/services'
+name = 'services-extra-pin'
+same-as = 'pyproject.toml:cli-version'
+same-as-pattern = '"spec-kitty-services==(?P<value>[^"]+)"'
+
+[[block]]
+target = 'docs/development/contributing.md#/Contributing to Spec Kitty/Release Process/Branch Strategy'
+name = 'contributing-open-rc'
+same-as = 'pyproject.toml:cli-version'
+same-as-pattern = '\(`(?P<value>[^`]+)` open;'
+
+# The release runbooks' `git add` commands stage every file that carries the release
+# version. RELEASE_CHECKLIST.md "Version files" is the one list.
+[[block]]
+target = 'RELEASE_CHECKLIST.md'
+target-pattern = '^git add (?P<value>.+)$'
+name = 'checklist-release-git-add'
+same-as-pattern = '(?P<value>\S+)'
+
+[[block]]
+target = 'docs/development/contributing.md'
+target-pattern = '^git add (?P<value>.+)$'
+name = 'contributing-release-git-add'
+same-as-pattern = '(?P<value>\S+)'
+
+[[block]]
+target = 'RELEASE_CHECKLIST.md#/Release Checklist/Pre-Release Preparation/Documentation and Metadata/Version files'
+name = 'release-version-files'
+same-as = [
+  'RELEASE_CHECKLIST.md:checklist-release-git-add',
+  'docs/development/contributing.md:contributing-release-git-add',
+]
+same-as-mode = 'subset'
+same-as-pattern = '^- `(?P<value>[^`]+)`'
+
+# ---------------------------------------------------------------------------
+# 2. Shared Package Compatibility, Lockfile & Changelog-Fragment Alignment
+# ---------------------------------------------------------------------------
+
+[[block]]
+target = 'pyproject.toml'
+target-pattern = '^\s*"spec-kitty-events(?P<value>[^"]+)"'
+name = 'pyproject-events-range'
+same-as = '.kittify/release/shared-package-compatibility.json#/packages/~[package=spec-kitty-events]/cli_range'
+
+[[block]]
+target = 'pyproject.toml'
+target-pattern = '^\s*"spec-kitty-tracker(?P<value>[^"]+)"'
+name = 'pyproject-tracker-range'
+same-as = '.kittify/release/shared-package-compatibility.json#/packages/~[package=spec-kitty-tracker]/cli_range'
+
+[[block]]
+target = '.kittify/release/shared-package-compatibility.json#/packages/~[package=spec-kitty-events]/locked_version'
+name = 'compat-events-locked'
+same-as = 'uv.lock#/package/~[name=spec-kitty-events]/version'
+
+[[block]]
+target = '.kittify/release/shared-package-compatibility.json#/packages/~[package=spec-kitty-tracker]/locked_version'
+name = 'compat-tracker-locked'
+same-as = 'uv.lock#/package/~[name=spec-kitty-tracker]/version'
+
+[[block]]
+target = 'pyproject.toml#/project/dependencies'
+name = 'pyproject-dependencies-no-retired-runtime'
+line-pattern-forbidden = '^["\x27]spec[-_]kitty[-_]runtime\b|^["\x27]spec[-_]kitty[-_](?:events|tracker)\b.*@'
+
+[[block]]
+target = 'scripts/release/validate_release.py#/_FRAGMENT_DIR'
+name = 'validate-release-fragment-dir'
+same-as = 'scripts/release/changelog_fragments.py#/FRAGMENT_DIR_REL'
+same-as-mode = 'sequence'
+same-as-pattern = '(?P<value>[a-z]+)'
+
+[[block]]
+target = 'scripts/release/validate_release.py#/_NON_FRAGMENTS'
+name = 'validate-release-non-fragments'
+same-as = 'scripts/release/changelog_fragments.py#/NON_FRAGMENTS'
+same-as-mode = 'set'
+same-as-pattern = '"(?P<value>[^"]+)"'
+
+# ---------------------------------------------------------------------------
+# 3. Doc-Kitty Site Contract Parity
+# ---------------------------------------------------------------------------
+
+[[block]]
+target = 'scripts/docs/_dockitty_contract.py#/EXCLUDED_FOLDERS'
+name = 'dockitty-excluded-py'
+same-as-pattern = '"(?P<value>[^"]+)"'
+
+[[block]]
+target = 'site/dockitty-contract.json#/exclude'
+name = 'dockitty-excluded'
+same-as = 'scripts/docs/_dockitty_contract.py:dockitty-excluded-py'
+same-as-mode = 'set'
+same-as-pattern = '^"(?P<value>[^"]+)",?$'
+
+[[block]]
+target = 'scripts/docs/_dockitty_contract.py#/INDEX_BASENAMES'
+name = 'dockitty-index-py'
+same-as-pattern = '"(?P<value>[^"]+)"'
+
+[[block]]
+target = 'site/dockitty-contract.json#/indexBasename'
+name = 'dockitty-index'
+same-as = 'scripts/docs/_dockitty_contract.py:dockitty-index-py'
+same-as-mode = 'set'
+same-as-pattern = '^"(?P<value>[^"]+)",?$'
+
+[[block]]
+target = 'site/dockitty-contract.json#/llmsStance'
+name = 'dockitty-llms-stance'
+same-as = 'scripts/docs/_dockitty_contract.py#/LLMS_STANCE'
+
+[[block]]
+target = 'site/package.json#/dependencies/@spec-kitty~1doc-toolkit'
+name = 'dockitty-pin'
+same-as = 'scripts/docs/_dockitty_contract.py#/DOCKITTY_PIN'
+same-as-pattern = '(?P<value>[0-9a-f]{40})'
+
+# ---------------------------------------------------------------------------
+# 4. Consumer Slash Commands & Agent Rosters
+# ---------------------------------------------------------------------------
+
+[[block]]
+target = 'src/specify_cli/shims/registry.py#/CONSUMER_SKILLS'
+name = 'consumer-skills'
+keep-unique = true
+same-as-pattern = '"(?P<value>[^"]+)"'
+
+[[block]]
+target = 'docs/api/slash-commands.md#/Slash Command Reference'
+name = 'slash-commands-headings'
+same-as = 'src/specify_cli/shims/registry.py:consumer-skills'
+same-as-mode = 'set'
+same-as-pattern = '^## /spec-kitty\.(?P<value>\S+)$'
+
+# The whole README: it is not a published docs page, so the retired-surface docs gate
+# (scripts/docs/retired_surface_gate.py) does not read it. `[^\w/.-]` keeps
+# `spec-kitty/spec-kitty.git` and `docs.spec-kitty.ai` out.
+[[block]]
+target = 'README.md'
+name = 'readme-slash-commands'
+same-as = 'src/specify_cli/shims/registry.py:consumer-skills'
+same-as-mode = 'subset'
+same-as-pattern = '(?:^|[^\w/.-])/spec-kitty\.(?P<value>[a-z][a-z-]*[a-z])'
+
+[[block]]
+target = 'src/specify_cli/core/config.py#/IDE_AGENTS'
+name = 'ide-agents'
+same-as-pattern = '"(?P<value>[^"]+)"'
+
+[[block]]
+target = 'src/specify_cli/core/tool_checker.py'
+target-pattern = 'IDE-integrated agents \((?P<value>[^)]+)\)'
+name = 'ide-agents-docstring'
+same-as = 'src/specify_cli/core/config.py:ide-agents'
+same-as-mode = 'set'
+same-as-pattern = '(?P<value>[a-z]+)'
+
+[[block]]
+target = 'src/specify_cli/core/config.py#/AI_CHOICES'
+name = 'ai-choices-keys'
+same-as = 'src/specify_cli/core/config.py#/AGENT_SKILL_CONFIG'
+same-as-mode = 'set'
+same-as-pattern = '^\s*"(?P<value>[^"]+)":'
+
+[[block]]
+target = 'docs/api/init-lifecycle.md'
+target-pattern = 'Comma-separated agent keys \((?P<value>[^)]+)\)'
+name = 'init-lifecycle-cli-agents'
+same-as = [
+  'src/specify_cli/core/config.py:ai-choices-keys',
+  'docs/guides/how-to/installation/non-interactive-init.md#/Non-Interactive Init Mode/Troubleshooting/"Invalid AI assistant"',
+]
+same-as-mode = 'set'
+same-as-pattern = '`(?P<value>[^`]+)`'
+
+[[block]]
+target = 'docs/guides/how-to/installation/non-interactive-init.md#/Non-Interactive Init Mode/Required Arguments for Non-Interactive Mode/2. AI Assistants (--ai)'
+name = 'non-interactive-init-table-agents'
+same-as = 'src/specify_cli/core/config.py:ai-choices-keys'
+same-as-mode = 'set'
+same-as-pattern = '^\| `(?P<value>[^`]+)` \|'

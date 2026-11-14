@@ -190,7 +190,7 @@ After initialization, you should see the following commands available in your AI
 
 Those four cover the start of a mission. For everything your agent can now run —
 including `/spec-kitty.implement`, `/spec-kitty.review`, `/spec-kitty.accept`, and
-`/spec-kitty.merge` — with syntax and prerequisites for each, see the
+`/spec-kitty.consolidate` — with syntax and prerequisites for each, see the
 [slash command reference](../../../api/slash-commands.md).
 
 Run `spec-kitty agent tasks status` at any time to see where each work package stands.

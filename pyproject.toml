@@ -367,7 +367,6 @@ exclude = [
     "scripts/docs/bulk_ref_rewrite.py",
     "scripts/docs/check_cli_reference_freshness.py",
     "scripts/docs/check_docs_freshness.py",
-    "scripts/docs/check_slash_command_freshness.py",
     "scripts/docs/docs_index.py",
     "scripts/docs/freshen_adr_inventory.py",
     "scripts/docs/frontmatter_backfill.py",

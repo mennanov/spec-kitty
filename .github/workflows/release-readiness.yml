@@ -6,9 +6,8 @@ on:
       - main
     paths:
       - pyproject.toml
-      - .kittify/metadata.yaml
+      - packages/spec-kitty-services/pyproject.toml
       - CHANGELOG.md
-      - uv.lock
       - scripts/release/**
       - RELEASE_CHECKLIST.md
       - .github/workflows/release-readiness.yml
@@ -56,12 +55,6 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-          cache: 'pip'
-
-      - name: Install validator dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyyaml==6.0.3 --only-binary=:all:
 
       - name: Detect release metadata changes
         if: github.event_name == 'pull_request'
@@ -71,9 +64,8 @@ jobs:
           filters: |
             version_sources:
               - 'pyproject.toml'
-              - '.kittify/metadata.yaml'
+              - 'packages/spec-kitty-services/pyproject.toml'
               - 'CHANGELOG.md'
-              - 'uv.lock'
             version_bump:
               - 'pyproject.toml'
             validator_surface:
@@ -119,12 +111,12 @@ jobs:
               echo "✅ **Version-source consistency checks passed**"
               echo ""
               echo "Release-version sources agree:"
-              echo "- pyproject.toml, .kittify/metadata.yaml, CHANGELOG.md, and uv.lock are consistent"
+              echo "- pyproject.toml, packages/spec-kitty-services/pyproject.toml, and CHANGELOG.md are consistent"
               echo "- Changelog entry exists and is populated for the current source version"
               echo ""
               echo "This was a consistency-only validation. It did not check whether the branch is release-ready, whether the version was bumped, or whether version progression is monotonic."
               echo ""
-              echo "Use CI Quality and Check Shared Package Drift on the same commit for test, package, and compatibility evidence."
+              echo "Use CI Router (uv-lock / blockwatch), CI Quality, and Check Shared Package Drift on the same commit for lockfile, metadata, test, package, and compatibility evidence."
             } >> "$GITHUB_STEP_SUMMARY"
           elif [[ "${{ steps.validate.outcome }}" == "success" ]]; then
             {
@@ -132,11 +124,11 @@ jobs:
               echo ""
               echo "Release metadata validation passed:"
               echo "- Version is properly bumped"
-              echo "- pyproject.toml, .kittify/metadata.yaml, CHANGELOG.md, and uv.lock agree"
+              echo "- pyproject.toml, packages/spec-kitty-services/pyproject.toml, and CHANGELOG.md agree"
               echo "- Changelog entry exists and is populated"
               echo "- Version progression is monotonic"
               echo ""
-              echo "This workflow validates release metadata only. The modular CI gates own test evidence; CI Quality owns wheel build and exact-install checks; Check Shared Package Drift owns shared-package pin drift checks."
+              echo "This workflow validates release metadata only. CI Router owns uv.lock and blockwatch cross-file parity; CI Quality owns wheel build and exact-install checks; Check Shared Package Drift owns shared-package pin drift checks."
               echo "Do not summarize a release as green until the repository test, package, and shared-package drift checks have passed on the same commit."
             } >> "$GITHUB_STEP_SUMMARY"
           elif [[ "${{ github.event_name }}" == "pull_request" && "${{ steps.metadata_changes.outputs.version_sources }}" != "true" && "${{ steps.metadata_changes.outputs.validator_surface }}" != "true" ]]; then
@@ -145,7 +137,7 @@ jobs:
               echo ""
               echo "Release metadata validation was skipped because this pull request does not modify release-version sources or validator logic."
               echo ""
-              echo "This workflow no longer repeats CI Quality or shared-package drift work. Use CI Quality and Check Shared Package Drift on the same commit for test, package, and compatibility evidence."
+              echo "This workflow no longer repeats CI Router, CI Quality, or shared-package drift work. Use CI Router (uv-lock / blockwatch), CI Quality, and Check Shared Package Drift on the same commit for lockfile, metadata, test, package, and compatibility evidence."
             } >> "$GITHUB_STEP_SUMMARY"
           else
             {
@@ -155,8 +147,8 @@ jobs:
               echo ""
               echo "### Required Actions"
               echo ""
-              echo "1. **Version Bump** - Update version in \`pyproject.toml\`"
-              echo "2. **Version Sync** - Keep \`pyproject.toml\`, \`.kittify/metadata.yaml\`, \`CHANGELOG.md\`, and \`uv.lock\` consistent"
+              echo "1. **Version Bump** - Update version in \`pyproject.toml\` and \`packages/spec-kitty-services/pyproject.toml\`"
+              echo "2. **Version Sync** - Keep \`pyproject.toml\`, \`packages/spec-kitty-services/pyproject.toml\`, and \`CHANGELOG.md\` consistent (CI \`uv-lock\` + \`blockwatch\` enforce \`uv.lock\` and \`.kittify/metadata.yaml\`)"
               echo "3. **Changelog Entry** - Add release notes under \`## [X.Y.Z]\` in \`CHANGELOG.md\`"
               echo "4. **Version Progression** - Ensure new version > latest tag"
               echo ""

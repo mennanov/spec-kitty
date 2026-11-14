@@ -174,7 +174,7 @@ my-project/
 │       ├── spec-kitty.implement.md
 │       ├── spec-kitty.review.md
 │       ├── spec-kitty.accept.md
-│       ├── spec-kitty.merge.md
+│       ├── spec-kitty.consolidate.md
 │       ├── spec-kitty.status.md
 │       ├── spec-kitty.charter.md
 │       ├── spec-kitty.research.md

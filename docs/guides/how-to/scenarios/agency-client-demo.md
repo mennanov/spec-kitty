@@ -126,7 +126,7 @@ Client sees: Tasks moving planned → doing → review → done
 **Friday:**
 ```text
 /spec-kitty.accept
-/spec-kitty.merge --push
+/spec-kitty.consolidate --push
 ```
 Client sees: Feature marked complete, demo scheduled
 

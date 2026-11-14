@@ -215,14 +215,6 @@ def test_the_live_fragment_directory_is_well_formed() -> None:
     assert fragment_problems(live) == []
 
 
-def test_the_tag_guard_reads_the_same_fragment_directory() -> None:
-    """``validate_release`` runs as a plain script, so it mirrors two constants; they must agree."""
-    from scripts.release import changelog_fragments, validate_release
-
-    assert "/".join(validate_release._FRAGMENT_DIR) == changelog_fragments.FRAGMENT_DIR_REL
-    assert validate_release._NON_FRAGMENTS == changelog_fragments.NON_FRAGMENTS
-
-
 def test_assembly_refuses_text_that_would_swallow_the_released_sections(tmp_path: Path) -> None:
     """Defense in depth behind the shape check: never write a changelog whose [Unreleased] grew past its end."""
     from scripts.release.changelog_fragments import Fragment
