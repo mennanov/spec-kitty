@@ -170,7 +170,7 @@ Spec Kitty enforces a specific sequence that prevents common AI coding failures:
 /spec-kitty.accept
 # Validates: All WPs approved or done? Spec requirements met? Tests passing?
 
-/spec-kitty.merge --push
+/spec-kitty.consolidate --push
 # Merges to main, copies specs to kitty-specs/, cleans up worktree
 ```
 
@@ -331,7 +331,7 @@ and WebSocket for live reload. Dark mode toggle.
 /spec-kitty.accept
 # Validates all tasks complete
 
-/spec-kitty.merge --push
+/spec-kitty.consolidate --push
 # Merges to main, feature complete!
 ```
 
@@ -493,7 +493,7 @@ spec-kitty upgrade  # Regenerates commands
 | `/spec-kitty.implement` | Ready to code | Auto-pick task → implement → move lanes |
 | `/spec-kitty.review` | Code review time | Review completed work → approve or reject |
 | `/spec-kitty.accept` | WPs approved | Validate mission readiness → ready to merge |
-| `/spec-kitty.merge` | Accepted mission | Merge to mission target branch → cleanup worktree |
+| `/spec-kitty.consolidate` | Accepted mission | Merge to mission target branch → cleanup worktree |
 
 ### CLI Commands (Outside Claude)
 
@@ -594,7 +594,7 @@ cd .worktrees/001-feature
 git commit -m "Implement WP03"
 
 # Merges use standard git merge
-/spec-kitty.merge  # Uses git merge under the hood
+/spec-kitty.consolidate  # Uses git merge under the hood
 ```
 
 ### With CI/CD

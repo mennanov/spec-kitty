@@ -38,7 +38,7 @@ _Stylized splash — the phase flowchart is decorative. CLI setup, prompt launch
 | Tasks | Produce work packages and prompts that Claude can execute | `/spec-kitty.tasks` |
 | Analysis | Ask Claude to sanity-check cross-artifact consistency before coding | `/spec-kitty.analyze` |
 | Implementation | Run Claude on specific prompt files | `/spec-kitty.implement` |
-| Review & Merge | Review, accept readiness, then land the branch | `/spec-kitty.review`, `/spec-kitty.accept`, `/spec-kitty.merge` |
+| Review & Merge | Review, accept readiness, then land the branch | `/spec-kitty.review`, `/spec-kitty.accept`, `/spec-kitty.consolidate` |
 
 ## Setup Checklist
 

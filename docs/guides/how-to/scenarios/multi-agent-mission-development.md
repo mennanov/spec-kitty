@@ -46,7 +46,7 @@ A lead architect coordinates several AI agents — each playing to its strength 
 7. **Accept and merge.** Once every work package is in `done/`:
    ```text
    /spec-kitty.accept   # Validates mission readiness, records metadata
-   /spec-kitty.merge    # Consolidates lane branches into local main and cleans up worktrees
+   /spec-kitty.consolidate    # Consolidates lane branches into local main and cleans up worktrees
    ```
 
 ## Outcome

@@ -82,7 +82,7 @@ JWT tokens for sessions, bcrypt for password hashing.
 ### 7. Acceptance & Merge (Either Agent)
 ```text
 /spec-kitty.accept
-/spec-kitty.merge --push
+/spec-kitty.consolidate --push
 ```
 
 ## Coordination Tips

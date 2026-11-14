@@ -25,9 +25,6 @@ entries:
   - page: api/environment-variables.md
     issue: "#7526"
     surfaces: {"spec-kitty merge": 1}
-  - page: api/file-structure.md
-    issue: "#7526"
-    surfaces: {"/spec-kitty.merge": 1}
   - page: api/skills/spk-gate-mission-review.md
     issue: "#7526"
     surfaces: {"spec-kitty merge": 1}
@@ -43,9 +40,6 @@ entries:
   - page: architecture/diagrams/01_context/README.md
     issue: "#7524"
     surfaces: {"Zeitgeist": 1, "saas_client": 1}
-  - page: architecture/documentation-mission.md
-    issue: "#7524"
-    surfaces: {"/spec-kitty.merge": 1}
   - page: architecture/mission-type-resolution.md
     issue: "#7524"
     surfaces: {"src/doctrine": 2}
@@ -76,45 +70,9 @@ entries:
   - page: guides/how-to/governance/use-retrospective-learning.md
     issue: "#7523"
     surfaces: {"spec-kitty merge": 3}
-  - page: guides/how-to/harnesses/amazon-q.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/harnesses/augment.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/harnesses/claude-code.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/harnesses/copilot.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/harnesses/cursor.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/harnesses/gemini.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/harnesses/kilocode.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/harnesses/opencode.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/harnesses/qwen.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
   - page: guides/how-to/harnesses/setup-lint-hooks.md
     issue: "#7523"
     surfaces: {"spec-kitty live-work": 1}
-  - page: guides/how-to/harnesses/windsurf.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/installation/install-spec-kitty.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/missions/accept-and-merge.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
   - page: guides/how-to/missions/keep-main-clean.md
     issue: "#7523"
     surfaces: {"spec-kitty merge": 2}
@@ -127,36 +85,12 @@ entries:
   - page: guides/how-to/recovery/recover-from-implementation-crash.md
     issue: "#7523"
     surfaces: {"spec-kitty merge": 1}
-  - page: guides/how-to/scenarios/agency-client-demo.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/scenarios/claude-cursor-collaboration.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/scenarios/multi-agent-mission-development.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/scenarios/parallel-implementation-tracking.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/scenarios/research-mission-example.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/scenarios/solo-developer-workflow.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1}
-  - page: guides/how-to/scenarios/worktree-parallel-missions.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 6}
-  - page: guides/tutorials/claude-code-integration.md
-    issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 4}
   - page: guides/tutorials/claude-code-workflow.md
     issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 1, "spec-kitty merge": 1}
+    surfaces: {"spec-kitty merge": 1}
   - page: guides/tutorials/your-first-mission.md
     issue: "#7523"
-    surfaces: {"/spec-kitty.merge": 2, "spec-kitty merge": 1}
+    surfaces: {"spec-kitty merge": 1}
   - page: migrations/charter-pack-cutover.md
     issue: "#7527"
     surfaces: {"spec-kitty live-work": 1}

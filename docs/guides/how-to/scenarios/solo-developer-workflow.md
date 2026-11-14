@@ -130,7 +130,7 @@ Final validation:
 
 Consolidate the mission into your local primary branch:
 ```text
-/spec-kitty.merge
+/spec-kitty.consolidate
 ```
 
 **Result:** Mission complete, worktree cleaned up, back in your repository-root checkout!

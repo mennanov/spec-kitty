@@ -224,7 +224,7 @@ outstanding.
 In your agent:
 
 ```text
-/spec-kitty.merge --push
+/spec-kitty.consolidate --push
 ```
 
 Or in your terminal:
